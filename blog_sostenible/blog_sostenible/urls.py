@@ -16,12 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from categoria import views
-from post.views import listar_posts, ver_post
+from post.views import listar_posts, ver_post, postsxcategoria
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("categorias/", views.listar_categorias),
     path("posts/", listar_posts),
     path("posts/ver_detalle_post/<int:id>", ver_post),
+    path("posts/categoria/<int:id>", postsxcategoria),
+    path("posts/categoria/ver_detalle_post/<int:id>", ver_post),
     
 ]

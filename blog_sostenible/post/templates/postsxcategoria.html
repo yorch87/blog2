@@ -11,18 +11,17 @@
 <body>
     <h1>Posts que siguen los lineamientos de los "17 ODS - Los 17 Objetivos de Desarrollo Sostenible"</h1>
     
-        
-    {% for post in lista_posts %}
+    <h1>Los posts de la siguiente categoria "{{ categoria.nombre }}" son:</h1> 
+   
     <div style= "border: 4px groove;">
-        <h1>hola</h1>
-        <a href="ver_detalle_post/{{post.id}}"><p>{{ post.titulo }}</p></a>
-        <p>{{ post.autor }}</p> 
-        <p>{{ post.texto }}</p>
-        {% for cat in post.categoria.all %} 
-            <a href="categoria/{{cat.id}}">{{ cat.nombre }}</a> &nbsp;&nbsp;&nbsp;
+                
+        {% for post in posts %}
+            <a href="ver_detalle_post/{{post.id}}"><p>{{post.titulo}}</p></a>
+            <p>{{ post.autor }}</p> 
+            <p>{{ post.texto }}</p> 
+             &nbsp;&nbsp;&nbsp;
         {% endfor %}
-    </div>
-    {% endfor %}
+    
         
    
     
