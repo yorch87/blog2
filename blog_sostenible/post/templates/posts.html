@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hola mundo</title>
+</head>
+
+<body>
+    <h1>Posts que siguen los lineamientos de los "17 ODS - Los 17 Objetivos de Desarrollo Sostenible"</h1>
+    
+        
+    {% for post in lista_posts %}
+    <div style= "border: 4px groove;">
+        <a href="ver_detalle_post/{{post.id}}"><p>{{ post.titulo }}</p></a>
+        <p>{{ post.autor }}</p> 
+        <p>{{ post.texto }}</p>
+        {% for cat in post.categoria.all %} 
+            {{ cat.nombre }} &nbsp;&nbsp;&nbsp;
+        {% endfor %}
+    </div>
+    {% endfor %}
+        
+   
+    
+</body>
+
+</html>
