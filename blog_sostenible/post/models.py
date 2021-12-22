@@ -9,10 +9,10 @@ from django.contrib.auth.models import User
 class Post(models.Model):
         titulo = models.CharField(max_length=200, null=False, blank=False)
         autor = models.CharField(max_length=50, null=False, blank=False)
-        #autor = models.ForeignKey(User, on_delete=models.CASCADE)
+        autor = models.ForeignKey(User, on_delete=models.CASCADE)
         texto = models.TextField()
-        #created = DateField(auto_now_add=True)
-        #updated = DateField(auto_now_add=True)
+        creado = DateTimeField(auto_now_add=True)
+        modificado = DateTimeField(auto_now=True)
 
         #created = DateTimeField.auto_now_add
 
@@ -22,4 +22,4 @@ class Post(models.Model):
         
 
         def __str__(self):
-            return self.titulo + self.autor
+            return self.titulo 
