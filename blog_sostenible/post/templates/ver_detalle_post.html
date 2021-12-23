@@ -6,12 +6,35 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle Post</title>
+    {% load static %}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 
 <body>
-    <h1 style=text-align:center class="text-success">Detalle de Post</h1>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+        <div class="container-fluid">
+          
+          <a class="navbar-brand col-lg-5" href="#">
+            <div class="input-group mb-3" style="text-align: center;">
+            <img src="{% static 'post/desarrollo-sostenible.jpg' %}" alt="" width="140" height="100"
+              class="d-inline-block align-text">
+              <div class="input-group-append">  
+                <h1 style="text-align: center;">Blog Sustentable : Detalle de Posts</h1>
+              </div>
+            </div>
+          </a>
+        
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+      
+        </div>
+      </nav>
+    
 
 
 
@@ -40,7 +63,8 @@
         <strong>{{ coment.autor }}</strong>
 
         <p>{{ coment.texto|linebreaks }}</p>
-        <a href="eliminar_comentario/{{coment.id}}"class="btn btn-outline-dannger float-right " type="submit" style="margin:4px">- Comentario</a>
+        <a href="editar_comentario/{{coment.id}}"class="btn btn-outline-warning float-right " type="submit" style="margin:4px">Editar Comentario</a>
+        <a href="eliminar_comentario/{{coment.id}}"class="btn btn-outline-danger float-right " type="submit" style="margin:4px">- Comentario</a>
     </div>
     <hr>
     {% empty %}

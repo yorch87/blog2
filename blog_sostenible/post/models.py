@@ -13,6 +13,7 @@ class Post(models.Model):
         texto = models.TextField()
         creado = DateTimeField(auto_now_add=True)
         modificado = DateTimeField(auto_now=True)
+        #imagen = models.ImageField('Imagen', upload_to='posts/',max_length=255,null= True, blank = True)
 
         #created = DateTimeField.auto_now_add
 

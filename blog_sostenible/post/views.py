@@ -48,6 +48,22 @@ def editar_post(request,id):
                                                                
         return render(request, "editar_post.html", contexto)
 
+def editar_comentario(request,id):
+        comentario_obj = Comentario.objects.filter(id=id).first()
+        post_id = str(comentario_obj.post_id)
+
+        if request.method == "POST":
+                 
+                form_obj = ComentarioModelForm(request.POST, instance=comentario_obj)
+                if form_obj.is_valid():
+                        form_obj.save()
+                return redirect("/posts/ver_detalle_post/"+post_id)
+        
+        form_obj = ComentarioModelForm(instance=comentario_obj)
+        contexto = {"form_obj":form_obj}
+                                                               
+        return render(request, "editar_comentario.html", contexto)
+
 
 def eliminar_post(request,id):
         
