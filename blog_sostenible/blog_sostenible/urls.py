@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from categoria import views
-from post.views import listar_posts, ver_post, postsxcategoria, editar_post, eliminar_post, crear_post
+from post.views import listar_posts, ver_post, postsxcategoria, editar_post, eliminar_post, crear_post, crear_comentario, eliminar_comentario
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,9 +25,12 @@ urlpatterns = [
     path("posts/ver_detalle_post/<int:id>", ver_post),
     path("posts/ver_detalle_post/editar/<int:id>", editar_post),
     path("posts/ver_detalle_post/eliminar/<int:id>", eliminar_post),
+    path("posts/ver_detalle_post/eliminar_comentario/<int:id>", eliminar_comentario),
+    path("posts/ver_detalle_post/crear_comentario/<int:id>", crear_comentario),
     path("posts/categoria/<int:id>", postsxcategoria),
     path("posts/categoria/ver_detalle_post/<int:id>", ver_post),
     path("posts/post/", crear_post),
+        
     path("posts/post/ver_detalle_post/<int:id>", ver_post),
     
 ]

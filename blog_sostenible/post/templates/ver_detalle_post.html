@@ -23,11 +23,12 @@
         {% for cat in post.categoria.all %}
         <a class="btn btn-primary  btn-xs" style=margin:2px;>{{cat.nombre}}</a> &nbsp;&nbsp;&nbsp;
         {% endfor %}
-        <button class="btn btn-outline-primary float-right " type="submit" style="margin:4px">+ Comentario</button>
+        <a href="crear_comentario/{{post.id}}"class="btn btn-outline-primary float-right " type="submit" style="margin:4px">+ Comentario</a>
         <br><br><br>
         <div style=text-align:center>
             <a href="editar/{{post.id}}" class="btn btn-success btn-xs" style=margin:2px>EDITAR</a>
             <a id="eliminar" href="eliminar/{{post.id}}" class="btn btn-danger btn-xs" style=margin:2px>ELIMINAR</a>
+            <a href="/posts/" class="btn btn-secondary btn-xs" style=margin:2px>VOLVER</a>
 
         </div>
     </div>
@@ -37,7 +38,9 @@
     <div style="margin: 20px 0px 20px 20px;">
         <div >{{ coment.creado }}</div>
         <strong>{{ coment.autor }}</strong>
+
         <p>{{ coment.texto|linebreaks }}</p>
+        <a href="eliminar_comentario/{{coment.id}}"class="btn btn-outline-dannger float-right " type="submit" style="margin:4px">- Comentario</a>
     </div>
     <hr>
     {% empty %}
