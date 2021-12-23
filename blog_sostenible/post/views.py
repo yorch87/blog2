@@ -1,6 +1,9 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
 from post.models import Post
 from categoria.models import Categoria
+from .forms import PostModelForm
+
 
 
 # Create your views here.
@@ -24,6 +27,28 @@ def editar_post(request,id):
         template = "ver_detalle_post.html"
 
         return render(request, template, contexto)
+
+#def crear_post(request):
+       # formulario_post = PostModelForm()
+       # contexto = {"formulario_post":formulario_post}
+       # template = "crear_post.html"
+
+        #return render(request, template, contexto)
+
+def crear_post(request):
+    if request.method == "POST":
+        # modelform puede obtener directamente el grupo de datos de la solicitud de interfaz.
+                 #Cuando los parámetros se pasan al Modelform instanciado
+        form_obj = PostModelForm(request.POST)
+                 # Llame al método is_valid () para verificar los datos
+        if form_obj.is_valid():
+                         # Guardar directamente en la base de datos
+            form_obj.save()
+            return redirect("/posts/")
+    formulario_post = PostModelForm()
+    contexto = {"formulario_post":formulario_post}
+    return render(request, 'crear_post.html',  contexto )
+  
   
 
 
