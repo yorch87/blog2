@@ -22,11 +22,22 @@ def ver_post(request,id):
         return render(request, template,contexto)
 
 def editar_post(request,id):
-        post = Post.objects.get(id=id)
-        contexto = {"post":post}
-        template = "ver_detalle_post.html"
+        post_obj = Post.objects.filter(id=id).first()
 
-        return render(request, template, contexto)
+        if request.method == "POST":
+                 # Al modificar los datos, puede pasar directamente la solicitud del paquete de datos del usuario.
+                 #Pasar un ejemplo del objeto a modificar, ModelForm puede completar automáticamente la modificación de los datos.
+                form_obj = PostModelForm(request.POST, instance=post_obj)
+                if form_obj.is_valid():
+                        form_obj.save()
+                return redirect("/posts/")
+         # form_obj establece el valor inicializado a través de initial, por ejemplo, la función de edición de libros en el sistema de gestión de la biblioteca,
+         # Haga clic en Editar y salte a la página de edición del libro. Después de saltar, debe completar la información correspondiente de la página con la información del libro a editar.
+         # A diferencia del componente Form, ModelForm puede pasar directamente el objeto instanciado, sin la necesidad de convertir el objeto en un diccionario.
+        form_obj = PostModelForm(instance=post_obj)
+        contexto = {"form_obj":form_obj}
+                                                               #locals () es una abreviatura de pares clave-valor de datos locales
+        return render(request, "editar_post.html", contexto)
 
 #def crear_post(request):
        # formulario_post = PostModelForm()
@@ -53,11 +64,13 @@ def crear_post(request):
 
 
 def eliminar_post(request,id):
+        
+
         post = Post.objects.get(id=id)
-        contexto = {"post":post}
+        post.delete()
         template = "ver_detalle_post.html"
 
-        return render(request, template,contexto)
+        return redirect("/posts/")
 
 def postsxcategoria(request,id):
 
