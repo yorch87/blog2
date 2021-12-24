@@ -1,4 +1,4 @@
-# blog2 (version Beta)
+# blog2 (versión Beta)
 #rama principal blog2
 17 Objetivos de Desarrollo Sostenible para un único desafío: Salvar nuestro planeta
 
