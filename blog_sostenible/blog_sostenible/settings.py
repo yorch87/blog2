@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "hola",
     "categoria",
     "post",
+    "social",
 ]
 
 MIDDLEWARE = [

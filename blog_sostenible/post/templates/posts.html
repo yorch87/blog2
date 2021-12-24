@@ -15,17 +15,17 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-success">
   <div class="container-fluid">
-    
+
     <a class="navbar-brand col-lg-5" href="#">
       <div class="input-group mb-3" style="text-align: center;">
-      <img src="{% static 'post/desarrollo-sostenible.jpg' %}" alt="" width="140" height="100"
-        class="d-inline-block align-text">
-        <div class="input-group-append">  
+        <img src="{% static 'post/desarrollo-sostenible.jpg' %}" alt="" width="140" height="100"
+          class="d-inline-block align-text">
+        <div class="input-group-append">
           <h1 style="text-align: center;">Blog Sustentable : Listados de Posts</h1>
         </div>
       </div>
     </a>
-  
+
   </div>
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,7 @@
       <input style="margin:2px" class="form-control mr-sm-2" type="search" id="busqueda" name="busqueda"
         placeholder="Puede buscar por Categorias, Fecha, Autor" aria-label="Search">
       <div class="input-group-append">
-        <a href=# class="btn btn-outline-success float-right " type="submit" style="margin:4px">Filtrar Posts</button>
+        <button href=# class="btn btn-outline-success float-right " type="submit" style="margin:4px">Filtrar Posts</button>
       </div>
       <div class="input-group-append">
         <a href="post/" class="btn btn-outline-warning float-right " type="submit" style="margin:4px">Nuevo Post</a>
@@ -62,7 +62,7 @@
 
 
   <div class="row">
-    
+
     {% for post in lista_posts %}
     <div class="col-4">
       <div class="card">
