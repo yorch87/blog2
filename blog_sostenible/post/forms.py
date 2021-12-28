@@ -13,7 +13,9 @@ class ComentarioModelForm(forms.ModelForm):
 
     class Meta:
         model = Comentario
-        fields = "__all__"
+        #fields = "__all__"
+        exclude = "autor","post",
+        
    
    
     

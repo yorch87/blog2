@@ -20,9 +20,11 @@
       <div class="input-group mb-3" style="text-align: center;">
         <img src="{% static 'post/desarrollo-sostenible.jpg' %}" alt="" width="140" height="100"
           class="d-inline-block align-text">
+          
         <div class="input-group-append">
-          <h1 style="text-align: center;">Blog Sustentable : Listados de Posts</h1><button href=# style="text-align:right" class="btn btn-outline-danger float-right " type="submit" style="margin:4px">Login</button>
-          <button href=# class="btn btn-outline-danger " type="submit" style="margin:4px 'text-align:right'">Registrar</button>
+          <h1 style="text-align: center;">Blog Sustentable : Listados de Posts</h1>
+          
+
         </div>
       </div>
     </a>
@@ -32,7 +34,20 @@
     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-
+  {% if not request.user.is_authenticated %}
+  
+    
+  <a href="/social/login/" style="text-align:right" class="btn btn-outline-warning float-right " type="submit" style="margin:5px">Login</a>
+  
+ <a href="/social/register/" class="btn btn-outline-warning " type="submit" style="margin:4px 'text-align:right'">Registrar</a>
+</div>
+  {% endif %}
+  {% if request.user.is_authenticated %}
+  <h6>Logueado:</h6>
+  <a href=# class="btn btn-primary float-right " type="submit" style="margin:4px">{{request.user.last_name}}</a>
+  <a href="/social/logout/" style="text-align:right" class="btn btn-outline-danger float-right " type="submit" style="margin:4px">Logout</a>
+  
+  {% endif %}
 
   </div>
 </nav>
@@ -51,7 +66,7 @@
 
       {% if request.user.is_authenticated %}
       <div class="input-group-append">
-        <a href="post/" class="btn btn-outline-warning float-right " type="submit" style="margin:4px">Nuevo Post1</a>
+        <a href="post/" class="btn btn-outline-warning float-right " type="submit" style="margin:4px">Nuevo Post</a>
       </div>
       {% endif %}
     </div>
