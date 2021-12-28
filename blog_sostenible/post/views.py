@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 from post.models import Post, Comentario
 from categoria.models import Categoria
 from .forms import PostModelForm, ComentarioModelForm
@@ -101,7 +102,7 @@ def crear_comentario(request,id):
      
         
    
-
+@login_required(login_url='/social/login')
 def crear_post(request):
     if request.method == "POST":
         

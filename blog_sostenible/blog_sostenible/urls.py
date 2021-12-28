@@ -37,4 +37,5 @@ urlpatterns = [
 
     path('social/', include('social.urls')),
     
+    
 ]
