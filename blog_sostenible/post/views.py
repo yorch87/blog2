@@ -18,6 +18,7 @@ def postsxcategoria(request,id):
         return render(request, template, contexto)
 
 def listar_posts(request):
+        
         posts = Post.objects.all().order_by("-creado")
         contexto = {"lista_posts": posts} 
         template = "posts.html"
@@ -33,10 +34,11 @@ def ver_post(request,id):
         return render(request, template,contexto)
 
 
-
+@login_required(login_url='/social/login')
 def editar_post(request,id):
         post_obj = Post.objects.filter(id=id).first()
-
+        if not request.user == post_obj.autor:
+                return redirect("/posts/")
         if request.method == "POST":
                  
                 form_obj = PostModelForm(request.POST, instance=post_obj)
@@ -65,10 +67,12 @@ def editar_comentario(request,id):
                                                                
         return render(request, "editar_comentario.html", contexto)
 
-
+@login_required(login_url='/social/login')
 def eliminar_post(request,id):
-        
         post = Post.objects.get(id=id)
+        if not request.user == post.autor:
+                return redirect("/posts/")
+       
         post.delete()
         template = "ver_detalle_post.html"
         #messages.success(request, "Post eliminado correctamente")
@@ -110,7 +114,9 @@ def crear_post(request):
                 
         if form_obj.is_valid():
                      
-            form_obj.save()
+            post=form_obj.save(commit=False)
+            post.autor=request.user
+            post.save()
             return redirect("/posts/")
     formulario_post = PostModelForm()
     contexto = {"formulario_post":formulario_post}

@@ -48,10 +48,12 @@
       <div class="input-group-append">
         <button href=# class="btn btn-outline-success float-right " type="submit" style="margin:4px">Filtrar Posts</button>
       </div>
-      <div class="input-group-append">
-        <a href="post/" class="btn btn-outline-warning float-right " type="submit" style="margin:4px">Nuevo Post</a>
-      </div>
 
+      {% if request.user.is_authenticated %}
+      <div class="input-group-append">
+        <a href="post/" class="btn btn-outline-warning float-right " type="submit" style="margin:4px">Nuevo Post1</a>
+      </div>
+      {% endif %}
     </div>
     <br><br>
   </div>

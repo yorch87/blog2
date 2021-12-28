@@ -49,8 +49,10 @@
         <a href="crear_comentario/{{post.id}}"class="btn btn-outline-primary float-right " type="submit" style="margin:4px">+ Comentario</a>
         <br><br><br>
         <div style=text-align:center>
+            {% if request.user == post.autor%}
             <a href="editar/{{post.id}}" class="btn btn-success btn-xs" style=margin:2px>EDITAR</a>
             <a id="eliminar" href="eliminar/{{post.id}}" class="btn btn-danger btn-xs" style=margin:2px>ELIMINAR</a>
+            {% endif %}
             <a href="/posts/" class="btn btn-secondary btn-xs" style=margin:2px>VOLVER</a>
 
         </div>
