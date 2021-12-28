@@ -1,0 +1,3 @@
+nrodriguez (perfil lector ) pass: rodriguez123
+jortiz(perfil escritor) pass: ortiz123
+admin(perfil administrador) pass:comision6
