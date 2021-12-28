@@ -38,9 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     "hola",
     "categoria",
     "post",
+    "social",
 ]
 
 MIDDLEWARE = [
@@ -127,3 +129,9 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+#LOGIN_URL= '/posts/'
+LOGIN_REDIRECT_URL = '/posts/'
+
+LOGOUT_REDIRECT_URL = '/posts/'
+#SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/posts/'

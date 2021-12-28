@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 from post.models import Post, Comentario
 from categoria.models import Categoria
 from .forms import PostModelForm, ComentarioModelForm
@@ -17,6 +18,7 @@ def postsxcategoria(request,id):
         return render(request, template, contexto)
 
 def listar_posts(request):
+        # .filter(icontains_name)
         posts = Post.objects.all().order_by("-creado")
         contexto = {"lista_posts": posts} 
         template = "posts.html"
@@ -31,11 +33,31 @@ def ver_post(request,id):
         
         return render(request, template,contexto)
 
+@login_required(login_url='/social/login')
+def crear_post(request):
+    if request.user.id == 2:
+        return redirect("/posts/")    
+
+    if request.method == "POST":
+        
+        form_obj = PostModelForm(request.POST)
+                
+        if form_obj.is_valid():
+                     
+            post=form_obj.save(commit=False)
+            post.autor=request.user
+            post.save()
+            return redirect("/posts/")
+    formulario_post = PostModelForm()
+    contexto = {"formulario_post":formulario_post}
+    return render(request, 'crear_post.html',  contexto )
 
 
+@login_required(login_url='/social/login')
 def editar_post(request,id):
         post_obj = Post.objects.filter(id=id).first()
-
+        if not request.user == post_obj.autor and not request.user.id == 1:
+                return redirect("/posts/")
         if request.method == "POST":
                  
                 form_obj = PostModelForm(request.POST, instance=post_obj)
@@ -47,6 +69,39 @@ def editar_post(request,id):
         contexto = {"form_obj":form_obj}
                                                                
         return render(request, "editar_post.html", contexto)
+
+@login_required(login_url='/social/login')
+def eliminar_post(request,id):
+        post = Post.objects.get(id=id)
+        if not request.user == post.autor and not request.user.id == 1:
+                return redirect("/posts/")
+       
+        post.delete()
+        template = "ver_detalle_post.html"
+        #messages.success(request, "Post eliminado correctamente")
+
+        return redirect("/posts/")
+
+@login_required(login_url='/social/login')
+def crear_comentario(request,id):
+    post_id = str(id)
+       
+    if request.method == "POST":
+        
+        form_obj = ComentarioModelForm(request.POST)
+                
+        if form_obj.is_valid():
+
+            comen=form_obj.save(commit=False) 
+            comen.autor=request.user
+            comen.post_id = id       
+            form_obj.save()
+            return redirect("/posts/ver_detalle_post/"+post_id)
+    formulario_comentario = ComentarioModelForm()
+    contexto = {"formulario_comentario":formulario_comentario}
+    return render(request, 'crear_comentario.html',  contexto )
+        
+
 
 def editar_comentario(request,id):
         comentario_obj = Comentario.objects.filter(id=id).first()
@@ -65,14 +120,6 @@ def editar_comentario(request,id):
         return render(request, "editar_comentario.html", contexto)
 
 
-def eliminar_post(request,id):
-        
-        post = Post.objects.get(id=id)
-        post.delete()
-        template = "ver_detalle_post.html"
-        #messages.success(request, "Post eliminado correctamente")
-
-        return redirect("/posts/")
 
 def eliminar_comentario(request,id):
         
@@ -84,35 +131,10 @@ def eliminar_comentario(request,id):
 
         return redirect("/posts/")
 
-def crear_comentario(request,id):
-    post_id = str(id)    
-    if request.method == "POST":
-        
-        form_obj = ComentarioModelForm(request.POST)
-                
-        if form_obj.is_valid():
-                     
-            form_obj.save()
-            return redirect("/posts/ver_detalle_post/"+post_id)
-    formulario_comentario = ComentarioModelForm()
-    contexto = {"formulario_comentario":formulario_comentario}
-    return render(request, 'crear_comentario.html',  contexto )
-        
+
      
         
    
 
-def crear_post(request):
-    if request.method == "POST":
-        
-        form_obj = PostModelForm(request.POST)
-                
-        if form_obj.is_valid():
-                     
-            form_obj.save()
-            return redirect("/posts/")
-    formulario_post = PostModelForm()
-    contexto = {"formulario_post":formulario_post}
-    return render(request, 'crear_post.html',  contexto )
 
 
