@@ -20,6 +20,7 @@ from post.views import listar_posts, ver_post, postsxcategoria, editar_post, eli
 
 
 urlpatterns = [
+    path('', listar_posts),
     path('admin/', admin.site.urls),
     path("categorias/", views.listar_categorias),
     path("posts/", listar_posts),

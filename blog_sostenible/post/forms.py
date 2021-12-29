@@ -2,7 +2,7 @@ from django import forms
 from .models import Post, Comentario
 
 class FiltroTitulo(forms.Form):
-    titulo = forms.CharField(required=False)
+    titulo = forms.CharField(max_length=200, required=False)
     
 
  
