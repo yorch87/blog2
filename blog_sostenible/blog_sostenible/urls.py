@@ -16,11 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from categoria import views
-from post.views import listar_posts, ver_post, postsxcategoria, editar_post, eliminar_post, crear_post, crear_comentario, eliminar_comentario, editar_comentario
+from post.views import listar_posts, ver_post, postsxcategoria, editar_post, eliminar_post, crear_post, crear_comentario, eliminar_comentario, editar_comentario, vista_redirige
 
 
 urlpatterns = [
-    #path('', listar_posts),
+    path('', vista_redirige),
     path('admin/', admin.site.urls),
     path("categorias/", views.listar_categorias),
     path("posts/", listar_posts),

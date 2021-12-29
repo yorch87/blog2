@@ -9,6 +9,9 @@ from .forms import PostModelForm, ComentarioModelForm, FiltroTitulo
 
 
 # Create your views here.
+def vista_redirige(request):
+    return redirect("/posts/")
+
 def postsxcategoria(request,id):
 
         categoria = Categoria.objects.get(id=id)
