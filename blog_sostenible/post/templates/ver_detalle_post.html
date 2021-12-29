@@ -50,7 +50,7 @@
         {% for cat in post.categoria.all %}
         <a class="btn btn-primary  btn-xs" style=margin:2px;>{{cat.nombre}}</a> &nbsp;&nbsp;&nbsp;
         {% endfor %}
-        {% if request.user == post.autor or request.user.id == 1 or request.user.id == 3 %}
+        {% if request.user == post.autor or request.user.id == 1 or request.user.id == 3 or request.user.id == 2 %}
         <a href="crear_comentario/{{post.id}}"class="btn btn-outline-primary float-right " type="submit" style="margin:4px">+ Comentario</a>
         {% endif %}
         <br><br><br>
@@ -71,8 +71,12 @@
         <strong>{{ coment.autor }}</strong>
 
         <p>{{ coment.texto|linebreaks }}</p>
+        {% if request.user == coment.autor or request.user.id == 1 or request.user == post.autor %}
         <a href="editar_comentario/{{coment.id}}"class="btn btn-outline-warning float-right " type="submit" style="margin:4px">Editar Comentario</a>
+        {% endif %}
+        {% if request.user == post.autor or request.user.id == 1 %}
         <a href="eliminar_comentario/{{coment.id}}"class="btn btn-outline-danger float-right " type="submit" style="margin:4px">- Comentario</a>
+        {% endif %}
     </div>
     <hr>
     {% empty %}
