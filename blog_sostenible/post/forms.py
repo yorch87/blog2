@@ -6,6 +6,10 @@ class FiltroTitulo(forms.Form):
 
 class FiltroCategoria(forms.Form):
     titulo = forms.CharField(max_length=200, required=False)
+
+class FiltroFecha(forms.Form):
+    desde= forms.DateField(required=False)
+    hasta = forms.DateField(required=False)
     
 
  

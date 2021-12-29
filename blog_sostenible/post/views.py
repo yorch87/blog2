@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from post.models import Post, Comentario
 from categoria.models import Categoria
-from .forms import PostModelForm, ComentarioModelForm, FiltroTitulo
+from .forms import PostModelForm, ComentarioModelForm, FiltroTitulo, FiltroFecha
 #from django.contrib.messages import  messages
 
 
@@ -22,17 +22,53 @@ def postsxcategoria(request,id):
 
 def listar_posts(request):
         formulario = FiltroTitulo(request.GET or None)
-        # .filter(icontains_name)
-        if formulario.is_valid():
+        formulariofecha = FiltroFecha(request.GET or None)
+        # filtro_titulo = formulario.cleaned_data["titulo"]
+        # desde = formulariofecha.cleaned_data["desde"]
+        # hasta = formulariofecha.cleaned_data["hasta"]
+        desde = None
+        hasta = None
+        # if desde:
+        #     posts.filter(creado__gte=desde)  #gte mayor o igual
+        # if hasta:
+        #     posts.filter(creado__lte=hasta) #lte menor o igual
+        
+        if formulario.is_valid() and formulario.data != None :
             print("formulario valido: ", formulario.cleaned_data)
             filtro_titulo = formulario.cleaned_data["titulo"]
+            #posts= Post.objects.filter(titulo__icontains = filtro_titulo)
             posts= Post.objects.filter(titulo__icontains = filtro_titulo)
+            posts = posts.order_by("-creado") 
         else:
-            print(formulario.errors)
-            posts = Post.objects.all().order_by("-creado")
+            print(formulario.errors)    
+            print(formulariofecha.errors)
+            posts = Post.objects.all().order_by("-creado")  
+
+        
+        if formulariofecha.data != None and formulariofecha.is_valid(): 
+            print("formulario valido: ", formulariofecha.cleaned_data)
+            desde = formulariofecha.cleaned_data.get("desde", None)
+            hasta = formulariofecha.cleaned_data.get("hasta", None)
+            #posts= Post.objects.filter(creado__range=(desde, hasta))
+            if desde:
+                posts = posts.filter(creado__gte=desde)  #gte mayor o igual
+            if hasta:
+                posts = posts.filter(creado__lte=hasta)
+            #posts= posts.filter(creado__range=(desde, hasta))
+            posts = posts.order_by("-creado") 
+        else:
+            print(formulario.errors)    
+            print(formulariofecha.errors)
+            posts = Post.objects.all().order_by("-creado")  
+        
             
+            
+            
+
+        
+              
                
-        contexto = {"lista_posts": posts, "form": formulario} 
+        contexto = {"lista_posts": posts, "form": formulario, "formfecha": formulariofecha} 
         template = "posts.html"
         
         return render(request, template, contexto)
