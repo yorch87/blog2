@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from post.models import Post, Comentario
 from categoria.models import Categoria
-from .forms import PostModelForm, ComentarioModelForm
+from .forms import PostModelForm, ComentarioModelForm, FiltroTitulo
 #from django.contrib.messages import  messages
 
 
@@ -18,9 +18,18 @@ def postsxcategoria(request,id):
         return render(request, template, contexto)
 
 def listar_posts(request):
+        formulario = FiltroTitulo(request.GET or None)
         # .filter(icontains_name)
-        posts = Post.objects.all().order_by("-creado")
-        contexto = {"lista_posts": posts} 
+        if formulario.is_valid():
+            print("formulario valido: ", formulario.cleaned_data)
+            filtro_titulo = formulario.cleaned_data["titulo"]
+            posts= Post.objects.filter(titulo__icontains = filtro_titulo)
+        else:
+            print(formulario.errors)
+            posts = Post.objects.all().order_by("-creado")
+            
+               
+        contexto = {"lista_posts": posts, "form": formulario} 
         template = "posts.html"
         
         return render(request, template, contexto)

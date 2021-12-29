@@ -1,6 +1,10 @@
 from django import forms
 from .models import Post, Comentario
- 
+
+class FiltroTitulo(forms.Form):
+    titulo = forms.CharField(required=False)
+    
+
  
 class PostModelForm(forms.ModelForm):
 
