@@ -3,12 +3,25 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from post.models import Post, Comentario
 from categoria.models import Categoria
-from .forms import PostModelForm, ComentarioModelForm, FiltroTitulo, FiltroFecha, FilterForm
+from .forms import PostModelForm, ComentarioModelForm, FiltroTitulo, FiltroFecha, FilterForm, FiltroComentario
 #from django.contrib.messages import  messages
 
 
 
 # Create your views here.
+class ListAsQuerySet(list):
+
+    def __init__(self, *args, model, **kwargs):
+        self.model = model
+        super().__init__(*args, **kwargs)
+
+    def filter(self, *args, **kwargs):
+        return self  # filter ignoring, but you can impl custom filter
+
+    def order_by(self, *args, **kwargs):
+        return self
+
+
 def vista_redirige(request):
     return redirect("/posts/")
 
@@ -40,7 +53,7 @@ def listar_posts(request):
 
         
             
-
+        formularioComentario = FiltroComentario(request.GET or None)
         formulario = FiltroTitulo(request.GET or None)
         formulariofecha = FiltroFecha(request.GET or None)
         categoriaSelect = Categoria.objects.all()
@@ -60,7 +73,28 @@ def listar_posts(request):
         else:
             print(formulario.errors)    
             print(formulariofecha.errors)
-            posts = Post.objects.all().order_by("-creado")  
+            posts = Post.objects.all().order_by("-creado")
+
+        if formularioComentario.is_valid() and formularioComentario.data != None :
+            print("formulario valido: ", formularioComentario.cleaned_data)
+            filtro_Comentario = formularioComentario.cleaned_data["texto"]
+            
+            comentarioFiltrado= Comentario.objects.filter(texto__icontains = filtro_Comentario)
+            lista = []
+            for com in comentarioFiltrado:
+                post_id = com.post_id
+                posti = Post.objects.get(id=post_id)
+                lista.append(posti) 
+            posts = ListAsQuerySet(lista, model=Post)    
+            
+            #Futura implementacion del filtrado de post segun sus comentarios
+            #comentarios_filtrados = Post.objects.all().comentarios.filter(texto__icontains = escribi en el campo)
+            posts = posts.order_by("-creado") 
+        else:
+            print(formulario.errors)    
+            print(formulariofecha.errors)
+            print(formularioComentario.errors)  
+            posts = Post.objects.all().order_by("-creado")        
 
         
         if formulariofecha.data != None and formulariofecha.is_valid(): 
@@ -87,7 +121,7 @@ def listar_posts(request):
         
               
                
-        contexto = {"lista_posts": posts, "form": formulario, "formfecha": formulariofecha, "categoriaSelect": categoriaSelect, "formSelect": formSelect} 
+        contexto = {"lista_posts": posts, "form": formulario, "formfecha": formulariofecha, "categoriaSelect": categoriaSelect, "formSelect": formSelect, "formularioComentario": formularioComentario} 
         template = "posts.html"
         
         return render(request, template, contexto)
