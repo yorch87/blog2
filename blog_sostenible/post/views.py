@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from post.models import Post, Comentario
 from categoria.models import Categoria
-from .forms import PostModelForm, ComentarioModelForm, FiltroTitulo, FiltroFecha
+from .forms import PostModelForm, ComentarioModelForm, FiltroTitulo, FiltroFecha, FilterForm
 #from django.contrib.messages import  messages
 
 
@@ -21,23 +21,41 @@ def postsxcategoria(request,id):
         return render(request, template, contexto)
 
 def listar_posts(request):
+        # if request.method == 'POST':
+        #     form = formSelectCategoria(request.POST)
+
+        #     if form.is_valid():
+        #         categoriaid = form.cleaned_data['value']
+        #         categoria = Categoria.objects.get(id=categoriaid)
+        #         posts = Post.objects.filter(categoria=categoria)
+        
+        formSelect = FilterForm(request.POST or None)
+        answer = ''
+        if formSelect.is_valid():
+            answer = formSelect.cleaned_data.get('filter_by')
+            categoria = Categoria.objects.get(id=answer)
+            posts = Post.objects.filter(categoria=categoria)
+            print(answer) 
+        
+
+        
+            
+
         formulario = FiltroTitulo(request.GET or None)
         formulariofecha = FiltroFecha(request.GET or None)
-        # filtro_titulo = formulario.cleaned_data["titulo"]
-        # desde = formulariofecha.cleaned_data["desde"]
-        # hasta = formulariofecha.cleaned_data["hasta"]
+        categoriaSelect = Categoria.objects.all()
+        
         desde = None
         hasta = None
-        # if desde:
-        #     posts.filter(creado__gte=desde)  #gte mayor o igual
-        # if hasta:
-        #     posts.filter(creado__lte=hasta) #lte menor o igual
+        
         
         if formulario.is_valid() and formulario.data != None :
             print("formulario valido: ", formulario.cleaned_data)
             filtro_titulo = formulario.cleaned_data["titulo"]
-            #posts= Post.objects.filter(titulo__icontains = filtro_titulo)
+            
             posts= Post.objects.filter(titulo__icontains = filtro_titulo)
+            #Futura implementacion del filtrado de post segun sus comentarios
+            #comentarios_filtrados = Post.objects.all().comentarios.filter(texto__icontains = escribi en el campo)
             posts = posts.order_by("-creado") 
         else:
             print(formulario.errors)    
@@ -59,7 +77,8 @@ def listar_posts(request):
         else:
             print(formulario.errors)    
             print(formulariofecha.errors)
-            posts = Post.objects.all().order_by("-creado")  
+            posts = Post.objects.all().order_by("-creado")
+ 
         
             
             
@@ -68,7 +87,7 @@ def listar_posts(request):
         
               
                
-        contexto = {"lista_posts": posts, "form": formulario, "formfecha": formulariofecha} 
+        contexto = {"lista_posts": posts, "form": formulario, "formfecha": formulariofecha, "categoriaSelect": categoriaSelect, "formSelect": formSelect} 
         template = "posts.html"
         
         return render(request, template, contexto)
@@ -126,7 +145,7 @@ def eliminar_post(request,id):
        
         post.delete()
         template = "ver_detalle_post.html"
-        #messages.success(request, "Post eliminado correctamente")
+        
 
         return redirect("/posts/")
 

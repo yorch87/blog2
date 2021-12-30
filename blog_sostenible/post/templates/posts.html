@@ -60,28 +60,40 @@
 
 
     <br><br>
-    <div class="input-group mb-3">
-      <div style= "border: 4px groove;">
-      <form action="" method="get">
-        {{form.as_p}}
-        <input class="btn btn-outline-success float-right " type="submit" value="Filtrar Posts">
-      </form>
-      </div>
-      <div style= "border: 4px groove;">
+    <div class="input-group mb-3" style="text-align: center;">
+      <div style="border: 4px groove;">
         <form action="" method="get">
+          <h5 style="text-align: center;">Filtrar por Titulo:</h5>
+          {{form.as_p}}
+          <input class="btn btn-outline-success float-right " type="submit" value="Filtrar Posts">
+        </form>
+      </div>
+      <div style="border: 4px groove;">
+        <form action="" method="get">
+          <h5 style="text-align: center;">Filtrar por Fecha:</h5>
           {{formfecha.as_p}}
           <p>Formato de fecha a ingresar, ej: 2021-12-28</p>
           <input class="btn btn-outline-success float-right " type="submit" value="Filtrar Posts">
         </form>
-        </div>
+      </div>
 
-      
+      <div style="border: 4px groove; text-align: center;">
+        <h5 style="text-align: center;">Filtrar por Categorias:</h5>
+        {% for cat in categoriaSelect %}
+        <a href="categoria/{{cat.id}}" class="badge bg-secondary" style="text-align: center;">{{cat.nombre}}</a>
+        {% endfor %}
+
+      </div>
+
+
+
+
     </div>
     {% if request.user.is_authenticated %}
-      <div class="input-group-append">
-        <a href="post/" class="btn btn-outline-warning float-right " type="submit" style="margin:4px">Nuevo Post</a>
-      </div>
-      {% endif %}
+    <div class="input-group-append">
+      <a href="post/" class=" badge bg-primary float-right " type="submit" style="margin:4px">Nuevo Post</a>
+    </div>
+    {% endif %}
     <br><br>
   </div>
 
